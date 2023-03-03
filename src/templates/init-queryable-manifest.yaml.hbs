@@ -1,0 +1,34 @@
+version: 0.1
+name: Default name
+description: Default description
+
+dataSources:
+{{#if dataSources}}
+  {{#each dataSources}}
+  - name: {{name}}
+    ipfsPath: {{ipfsPath}}
+  {{/each}}
+{{else}}
+#  - name: Specify name
+#    ipfsPath: /ipfs/...
+{{/if}}
+
+entities:
+  - name: ExampleEntity
+    fields:
+    - name: exampleField
+      type: string!
+
+jobs:
+  - name: defaultJob
+{{#if firstDataSource}}
+    dataSources:
+      - {{firstDataSource.name}}
+{{else}}
+{{/if}}
+    module: ./index.ts
+    handlers:
+      - method: handleEntity
+    #    dataSources:
+    #      - name: Data source name
+    #        name: Entity name
